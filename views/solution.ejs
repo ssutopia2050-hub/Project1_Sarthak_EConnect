@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="/icons8-study-arcade-96.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/solution.css">
+<!--    <%= question.question %>-->
+<!--    <%= question.subject %>-->
+<!--    <%= question.subject %>-->
+<!--    <%= question.class %>-->
+<!--    <%= question.solution || "Solution coming soon." %>-->
+<!--    <a href="/" class="back-btn">← Back to search</a>-->
+    <title>Solution</title>
+</head>
+<body>
+<div class="header">
+    <div class="logo-text home">
+        <img src="/Logo.png" alt="">
+        <h1>SolveR</h1>
+    </div>
+    <div class="Solution-title">
+        Solution
+    </div>
+    <div class="pages-links">
+
+        <div class="link-container Work-Centre">
+            Work-Center
+        </div>
+        <div class="link-container Contact">
+            Contact
+        </div>
+        <div class="link-container-profile-icon">
+
+        </div>
+    </div>
+</div>
+<div class="drop-down-profile">
+    <div class="drop-down-menu-box profile">
+        Profile
+    </div>
+    <div class="drop-down-menu-box dark-mode-toggle">
+        Light Mode
+    </div>
+    <div class="drop-down-menu-box settings">
+        Settings
+    </div>
+    <div class="drop-down-menu-box LogOut">
+        Logout
+    </div>
+</div>
+<div class="contents">
+ <div class="question-display">
+     <span style="color:#16a085">Question:</span> <%= question.question %>
+ </div>
+    <div class="small-tags-for-result-tab">
+        <div class="result-tab-difficulty-display moderate">
+            <% if (question.difficulty==="Easy") { %>
+             <span style="color:#00ced3">Easy</span>
+            <% } else if (question.difficulty==="Moderate") { %>
+             <span style="color:darkorange">Moderate</span>
+            <% } else if (question.difficulty==="Hard") { %>
+               <span style="color:darkred">Hard</span>
+            <% } %>
+        </div>
+        <div class="result-tab-competitions-asked">
+            <%= question.competition %>
+        </div>
+        <div class="result-tab-subject-display">
+            <%= question.subject %>
+        </div>
+        <div class="result-tab-class-display">
+            Class<%= question.class %>
+        </div>
+    </div>
+    <div class="solution-text-display-box">
+        <%= question.solution_text %>
+    </div>
+    <div class="solution-video-display-box">
+        <div class="solution-video-display-box-header">
+            <h1>Video Solution</h1>
+        </div>
+        <%= question.solution_video %>
+    </div>
+    <div class="solution-image-display-box">
+        <%= question.solution_image %>
+    </div>
+
+</div>
+<div class="footer">
+    <div class="footer-text">
+        <span class="muted">Your,</span>
+        <span class="highlight">AI</span>
+        <span class="muted">Powered</span>
+    </div>
+
+    <div class="footer-text">
+        <span class="muted">Doubt</span>
+        <span class="highlight">SolveR.</span>
+    </div>
+</div>
+<script src="/solution.js"></script>
+</body>
+</html>
