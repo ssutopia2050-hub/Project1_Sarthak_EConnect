@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     /* ===============================
        ELEMENT SELECTORS
     =============================== */
@@ -63,7 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const data = await res.json();
-
+            // console.log(data.results);
+            // console.log(prompt);
             // 🔥 REMOVE LOADER HERE
             const loader = document.getElementById("resultsLoader");
             if (loader) loader.remove();
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 resultsSection.innerHTML = "<p>No results found.</p>";
                 return;
             }
-
+            await renderAiResult(prompt);
             data.results.slice(0, 10).forEach(renderResult);
 
         } catch (err) {
@@ -83,6 +83,76 @@ document.addEventListener("DOMContentLoaded", () => {
             if (loader) loader.remove();
 
             resultsSection.innerHTML = "<p>Something went wrong. Try again.</p>";
+        }
+    }
+    /* ===============================
+       RENDER AI SINGLE RESULT
+    =============================== */
+    async function renderAiResult(prompt) {
+
+        /* MAIN AI BOX */
+        const aiBox = document.createElement("div");
+        aiBox.className = "ai-result-tab";
+
+        /* TOP BAR */
+        const topBar = document.createElement("div");
+        topBar.className = "ai-result-tab-top";
+
+        const geminiLogoWrap = document.createElement("div");
+        geminiLogoWrap.className = "gemini-logo";
+
+        const geminiLogo = document.createElement("img");
+        geminiLogo.src = "/gemini-color.svg";
+
+        geminiLogoWrap.appendChild(geminiLogo);
+
+        const title = document.createElement("div");
+        title.className = "gemini-title";
+        title.innerText = "GPT-Solution";
+
+        const tag = document.createElement("div");
+        tag.className = "premium-tag-display";
+        tag.innerText = "Free tier";
+
+        topBar.append(geminiLogoWrap, title, tag);
+
+        /* BODY */
+        const body = document.createElement("div");
+        body.className = "ai-result-body";
+
+        /* 🔥 LOADER INSERTED FIRST */
+        body.innerHTML = `
+        <div class="ai-loader">
+            <div class="ai-loader-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span>Thinking…</span>
+        </div>
+    `;
+
+        aiBox.append(topBar, body);
+        resultsSection.prepend(aiBox);
+
+        observer.observe(aiBox);
+
+        /* FETCH AI ANSWER */
+        try {
+            const res = await fetch("/ai-answer", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question: prompt })
+            });
+
+            const data = await res.json();
+
+            /* 🔥 REPLACE LOADER WITH ANSWER */
+            body.innerHTML = marked.parse(data.answer);
+
+        } catch (err) {
+            body.innerHTML = "<p>⚠️ Failed to fetch AI answer.</p>";
+            console.error(err);
         }
     }
     /* ===============================
