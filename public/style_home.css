@@ -400,3 +400,136 @@ a, a:link, a:visited, a:hover, a:focus, a:active {
 .footer-text .highlight{
     text-shadow: 0 0 10px rgba(255,255,255,0.25);
 }
+.ai-result-tab{
+    border:1px solid rgba(22, 160, 133, 0.37);
+    /*width:50vw;*/
+    width:fit-content;
+    height:fit-content;
+    border-radius:10px;
+    padding:30px;
+}
+.ai-result-tab .gemini-logo {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Rotating multicolour ring */
+.ai-result-tab .gemini-logo::before {
+    content: "";
+    position: absolute;
+    inset: -1px; /* ring thickness */
+    border-radius: 50%;
+
+    background: conic-gradient(
+            #4285F4, /* blue */
+            #34A853, /* green */
+            #FBBC05, /* yellow */
+            #EA4335, /* red */
+            #4285F4
+    );
+
+    animation: rotateRing 3s linear infinite;
+    z-index: 0;
+}
+
+/* Inner mask so it looks like a ring */
+.ai-result-tab .gemini-logo::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: #ecf0f1; /* same as page bg */
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.ai-result-tab .gemini-logo img {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Rotation animation */
+@keyframes rotateRing {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}/*}*/
+.ai-result-tab-top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap:10px;
+    /*border: 1px solid #16a085;*/
+}
+.premium-tag-display{
+      border:1px solid grey;
+      padding:5px;
+      border-radius:5px;
+      font-size:0.8rem;
+      color:grey;
+}
+.ai-result-body {
+    margin-top: 14px;
+    line-height: 1.6;
+    color: #023024;
+}
+
+.ai-result-body ul {
+    padding-left: 20px;
+}
+
+.ai-result-body strong {
+    color: #004346;
+}
+/* ===============================
+   AI LOADER
+================================ */
+.ai-loader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.ai-loader-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.ai-loader-dots span {
+    width: 6px;
+    height: 6px;
+    background: #00bfa6;
+    border-radius: 50%;
+    animation: aiBounce 1.4s infinite ease-in-out;
+}
+
+.ai-loader-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.ai-loader-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes aiBounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.3;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
