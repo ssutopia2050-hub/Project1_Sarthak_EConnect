@@ -2,13 +2,23 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ===============================
        ELEMENT SELECTORS
     =============================== */
+    const themeLink = document.getElementById("themeStylesheet");
+    const theme_toggle = document.querySelector(".dark-mode-toggle");
     const profileIcon = document.querySelector(".link-container-profile-icon");
     const dropdown = document.querySelector(".drop-down-profile");
     const input = document.getElementById("promptInput");
     const searchBtn = document.querySelector(".search-icon");
     const resultsSection = document.querySelector(".results-section");
     const home_btn = document.querySelector(".logo-text");
-
+    theme_toggle.addEventListener("click", () => {
+        if (themeLink.href.includes("dark")) {
+            themeLink.href = "/style_home_bright_mode.css";
+            theme_toggle.innerText = "Light Mode";
+        } else {
+            themeLink.href = "/style_home_dark_mode.css";
+            theme_toggle.innerText = "Dark Mode";
+        }
+    });
     home_btn.addEventListener("click", async (e) => {
       window.location.href = "/";
     })
@@ -67,12 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
             // 🔥 REMOVE LOADER HERE
             const loader = document.getElementById("resultsLoader");
             if (loader) loader.remove();
-
-            if (!data.results || data.results.length === 0) {
-                resultsSection.innerHTML = "<p>No results found.</p>";
-                return;
-            }
             await renderAiResult(prompt);
+
+            // if (!data.results || data.results.length === 0) {
+            //     resultsSection.innerHTML = "<p>No results found.</p>";
+            //     return;
+            // }
+
             data.results.slice(0, 10).forEach(renderResult);
 
         } catch (err) {
@@ -148,7 +159,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
 
             /* 🔥 REPLACE LOADER WITH ANSWER */
+            // console.log(data.answer);
             body.innerHTML = marked.parse(data.answer);
+
 
         } catch (err) {
             body.innerHTML = "<p>⚠️ Failed to fetch AI answer.</p>";
@@ -216,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* Solution Button */
         const solutionBtn = document.createElement("a");
-        solutionBtn.className = "result-tab-solution-view-button";
+        solutionBtn.classList.add("result-tab-solution-view-button");
         solutionBtn.innerText = "Solution";
         solutionBtn.href = `/solution/${item._id}`;
         solutionBtn.target = "_blank";
