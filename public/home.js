@@ -10,13 +10,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchBtn = document.querySelector(".search-icon");
     const resultsSection = document.querySelector(".results-section");
     const home_btn = document.querySelector(".logo-text");
+    if(localStorage.getItem("theme_app_SolveR") === "light"){
+        themeLink.href = "/style_home_bright_mode.css";
+        theme_toggle.innerText = "Dark Mode";
+    }
+    else{
+        themeLink.href = "/style_home_dark_mode.css";
+        theme_toggle.innerText = "Light Mode";
+    }
     theme_toggle.addEventListener("click", () => {
         if (themeLink.href.includes("dark")) {
             themeLink.href = "/style_home_bright_mode.css";
-            theme_toggle.innerText = "Light Mode";
+            theme_toggle.innerText = "Dark Mode";
+            localStorage.setItem("theme_app_SolveR", "light");
+
         } else {
             themeLink.href = "/style_home_dark_mode.css";
-            theme_toggle.innerText = "Dark Mode";
+            theme_toggle.innerText = "Light Mode";
+            localStorage.setItem("theme_app_SolveR", "dark");
         }
     });
     home_btn.addEventListener("click", async (e) => {

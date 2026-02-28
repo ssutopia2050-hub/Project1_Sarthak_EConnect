@@ -140,17 +140,17 @@ body{
     height:6vh;
     width:15vw;
     border-radius:50px;
-    background-image:linear-gradient(to right, #10b399, #4ac6ac,#10b399);
+    /*background-image:linear-gradient(to right, #10b399, #4ac6ac,#10b399);*/
     display:flex;
     justify-content: center;
     align-items: center;
-    color:white;
+    color:#16a085;
     font-size:0.5rem;
     transition:1s ease all;
     cursor:pointer;
 }
 .premium-ai-bot-answer-button:hover{
-    background-image:linear-gradient(to right, #4ac6ac,#10b399,#4ac6ac);
+    background-color: rgba(22, 160, 133, 0.27);
 }
 .link-container-profile-icon{
     height:50px;

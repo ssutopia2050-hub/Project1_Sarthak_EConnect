@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", (e) => {
+    const themeLink = document.getElementById("themeStylesheet");
+    const theme_toggle = document.querySelector(".dark-mode-toggle");
     const profileIcon = document.querySelector(".link-container-profile-icon");
     const dropdown = document.querySelector(".drop-down-profile");
     /* ===============================
@@ -15,4 +17,24 @@ document.addEventListener("DOMContentLoaded", (e) => {
             dropdown.style.display = "none";
         });
     }
+    if(localStorage.getItem("theme_app_SolveR") === "light"){
+        themeLink.href = "/solution_bright.css";
+        theme_toggle.innerText = "Dark Mode";
+    }
+    else{
+        themeLink.href = "/solution_dark.css";
+        theme_toggle.innerText = "Light Mode";
+    }
+    theme_toggle.addEventListener("click", () => {
+        if (themeLink.href.includes("dark")) {
+            themeLink.href = "/solution_bright.css";
+            theme_toggle.innerText = "Dark Mode";
+            localStorage.setItem("theme_app_SolveR", "light");
+
+        } else {
+            themeLink.href = "/solution_dark.css";
+            theme_toggle.innerText = "Light Mode";
+            localStorage.setItem("theme_app_SolveR", "dark");
+        }
+    });
 })
