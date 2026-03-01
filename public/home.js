@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     home_btn.addEventListener("click", async (e) => {
-      window.location.href = "/";
+      window.location.href = "/home";
     })
     /* ===============================
        PROFILE DROPDOWN

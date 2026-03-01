@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/signup.css">
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/x-icon" href="/icons8-study-arcade-96.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Solver-SignUp</title>
+</head>
+<body>
+   <div class="card">
+       <div class="logo">
+           <img src="/Logo.png" alt="">
+       </div>
+       <div class="heading">
+           <h1>Sign Up</h1>
+       </div>
+       <div class="form-container">
+           <form method="post" id="signupForm" action="/signup">
+               <input type="text" name="name" placeholder="Enter Name" required>
+               <input type="text" name="email" placeholder="Enter Email" required>
+               <input type="password" name="password" placeholder="Enter Password" required>
+               <input type="text" name="phone" placeholder="Enter Phone Number" required>
+               <input type="text" name="age" placeholder="Enter Age" required>
+               <select name="role" required>
+                   <option  value="" disabled selected>Select Role</option>
+                   <option value="student">Student</option>
+                   <option value="educator">Educator</option>
+                   <option value="employee">Employee</option>
+                   <option value="administrator">Administrator</option>
+               </select>
+               <a href="/signin">Already a member? Sign In</a>
+               <button type="submit">Sign Up</button>
+           </form>
+       </div>
+   </div>
+   <script src="/signup.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" href="/reset_verify.css">
+</head>
+<body>
+
+<div class="card">
+    <h1 style="color:rgba(0, 255, 200, 0.51)">Verify OTP</h1>
+
+    <% if (error) { %>
+    <p style="color:red;"><%= error %></p>
+    <% } %>
+
+    <p style="color:rgba(0, 255, 200, 0.51)">
+        OTP sent to <%= email %>
+    </p>
+
+    <div class="form-container">
+        <form method="POST" action="/reset_verify">
+            <input
+                    type="number"
+                    name="otp"
+                    placeholder="Enter OTP"
+                    required
+            >
+            <button type="submit">Verify</button>
+        </form>
+
+        <form method="POST" action="/resend-reset-otp">
+            <button id="resendBtn" type="submit">Resend OTP</button>
+            <p id="timer" style="color:orange;"></p>
+        </form>
+    </div>
+</div>
+
+<script>
+    const resendAllowedAt = <%= resendAllowedAt || 0 %>;
+    const timerElement = document.getElementById("timer");
+    const resendBtn = document.getElementById("resendBtn");
+
+    function updateTimer() {
+        const now = Date.now();
+        const diff = resendAllowedAt - now;
+
+        if (diff > 0) {
+            const totalSeconds = Math.ceil(diff / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            timerElement.textContent =
+                "Resend available in " +
+                minutes + "m " +
+                (seconds < 10 ? "0" : "") + seconds + "s";
+
+            resendBtn.disabled = true;
+        } else {
+            timerElement.textContent = "";
+            resendBtn.disabled = false;
+        }
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>

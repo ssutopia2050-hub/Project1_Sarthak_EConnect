@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/signup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        <img src="/Logo.png" alt="Logo">
+    </div>
+
+    <div class="heading">
+        <h1>Sign In</h1>
+    </div>
+
+    <div class="form-container">
+        <form method="POST" action="/signin">
+
+            <% if (error) { %>
+            <p style="color:red;"><%= error %></p>
+            <% } %>
+
+            <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+            >
+
+            <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+            >
+
+            <button type="submit">Sign In</button>
+            <a style="font-weight:lighter" href="/forgot_password">Forgot Password? Reset</a>
+            <a href="/signup">Don't have an account? Sign Up</a>
+
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

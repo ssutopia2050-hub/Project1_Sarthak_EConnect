@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/email_verification.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/x-icon" href="/icons8-study-arcade-96.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Email Verification</title>
+</head>
+<body>
+<div class="card">
+    <div class="logo">
+        <img src="/Logo.png" alt="">
+    </div>
+    <div class="heading">
+        <h1>Email Verification</h1>
+    </div>
+    <div class="form-container">
+        <% if (error) { %>
+        <p style="color:#ff4d4d; font-size:14px;"><%= error %></p>
+        <% } %>
+
+        <p style="color:rgba(0,255,200,0.7); font-size:14px;">
+            OTP sent to <%= email %>
+        </p>
+
+        <p id="timer" style="color:#ffcc00; font-size:14px; border:1px solid #ffcc00; padding:10px 20px; border-radius: 10px"></p>
+
+        <form method="POST" action="/email_verification">
+            <input type="text" name="otp" required />
+            <button type="submit">Verify</button>
+        </form>
+
+        <form method="POST" action="/resend-otp" style="margin-top:10px;">
+            <button type="submit" id="resendBtn">Resend OTP</button>
+        </form>
+    </div>
+
+    <script>
+        const expiry = Number("<%= expires %>");
+        const resendAllowedAt = Number("<%= resendAllowedAt %>");
+
+        const timerEl = document.getElementById("timer");
+        const resendBtn = document.getElementById("resendBtn");
+
+        function updateTimers() {
+            const now = Date.now();
+
+            // OTP expiry countdown
+            const otpRemaining = Math.floor((expiry - now) / 1000);
+            if (otpRemaining <= 0) {
+                timerEl.innerText = "OTP expired.";
+            } else {
+                const mins = Math.floor(otpRemaining / 60);
+                const secs = otpRemaining % 60;
+                timerEl.innerText = "OTP Expires in " + mins + "m " + secs + "s";
+            }
+
+            // Resend cooldown
+            const resendRemaining = Math.floor((resendAllowedAt - now) / 1000);
+
+            if (resendRemaining > 0) {
+                resendBtn.disabled = true;
+                resendBtn.innerText = "Resend OTP (" + resendRemaining + "s)";
+                resendBtn.style.opacity = "0.6";
+                resendBtn.style.cursor = "not-allowed";
+            } else {
+                resendBtn.disabled = false;
+                resendBtn.innerText = "Resend OTP";
+                resendBtn.style.opacity = "1";
+                resendBtn.style.cursor = "pointer";
+            }
+        }
+
+        setInterval(updateTimers, 1000);
+        updateTimers();
+    </script>
+</div>
+</body>
+</html>
