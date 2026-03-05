@@ -42,7 +42,8 @@ const user_profile = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-    }
+    },
+    profile_picture: String
 });
 
 export default mongoose.model("user_profile", user_profile);

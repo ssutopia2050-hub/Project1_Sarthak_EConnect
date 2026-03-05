@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/icons8-study-arcade-96.png">
+    <link rel="stylesheet" href="/profile.css">
+    <meta charset="UTF-8">
+    <title>Account Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo-and-text-container">
+        <img src="/Logo.png" alt="image.png">
+        <h1>SolveR</h1>
+    </div>
+    <div class="sidebar-menu-item Profile">
+      Profile
+    </div>
+    <div class="sidebar-menu-item Account-Settings">
+        Account Settings
+    </div>
+    <div class="sidebar-menu-item Subscriptions">
+        Subscriptions
+    </div>
+    <div class="sidebar-menu-item Logout">
+        Log Out
+    </div>
+</div>
+<div class="content-container">
+  <div class="page-title">
+<!--      <%= user.name %>'s -->Profile
+  </div>
+    <div class="page-profile-display-card">
+        <div class="page-profile-display-card-top">
+            <div class="profile-picture-container">
+
+                <svg class="progress-ring" id="progressRing" width="220" height="220">
+                    <circle
+                            class="progress-ring-bg"
+                            cx="115"
+                            cy="115"
+                            r="102"
+                    />
+                    <circle
+                            class="progress-ring-circle"
+                            id="progressCircle"
+                            cx="115"
+                            cy="115"
+                            r="102"
+                    />
+                </svg>
+
+                <img id="profileImage"
+                     src="<%= user.profile_picture || '/default-avatar.png' %>"
+                     alt="profile">
+
+                <input type="file"
+                       id="imageInput"
+                       accept="image/*"
+                       style="display:none;">
+            </div>
+        </div>
+        <div class="page-profile-display-card-bottom">
+            <div class="cl1">
+                <div class="display-card">
+                   <div class="label-name">Name</div>
+                    <div class="name" id="displayName"><%= user.name %></div>
+                    <input type="text"
+                           id="nameInput"
+                           value="<%= user.name %>"
+                           style="display:none;">
+                </div>
+                <div class="display-card">
+                    <div class="label-name">Email</div>
+                    <div class="name"><%= user.email %></div>
+                </div>
+            </div>
+            <div class="cl2">
+                <div class="display-card">
+                    <div class="label-name">Phone No.</div>
+                    <div class="name"><%= user.mobile_number %></div>
+                </div>
+                <div class="display-card">
+                    <div class="label-name">Questions Solved</div>
+                    <div class="name"><%= user.questions_attempted %></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="/profile.js"></script>
+</body>
+</html>

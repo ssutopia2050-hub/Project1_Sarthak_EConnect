@@ -9,7 +9,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("promptInput");
     const searchBtn = document.querySelector(".search-icon");
     const resultsSection = document.querySelector(".results-section");
+    const profileSection = document.querySelector(".profile");
     const home_btn = document.querySelector(".logo-text");
+    const pricing_page_btn = document.querySelector(".Pricing");
+    const logout = document.querySelector(".LogOut");
+    /* ===============================
+     Logout
+   =============================== */
+    logout.addEventListener("click", (e) => {
+        window.location.href = "/logout";
+    })
+    /* ===============================
+     Pricing
+   =============================== */
+    pricing_page_btn.addEventListener("click", (e) => {
+        window.location.href = "/pricing";
+    });
+    profileSection.addEventListener("click", (e) => {
+        window.location.href = "/profile";
+    })
     if(localStorage.getItem("theme_app_SolveR") === "light"){
         themeLink.href = "/style_home_bright_mode.css";
         theme_toggle.innerText = "Dark Mode";

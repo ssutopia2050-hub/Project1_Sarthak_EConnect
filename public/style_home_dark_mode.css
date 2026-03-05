@@ -59,7 +59,7 @@ body{
     color:#00e5c0;
 }
 .contents{
-    min-height: 100vh;
+    min-height: 60vh;
     width: 100%;
     display: flex;
     flex-direction: column;

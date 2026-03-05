@@ -3,9 +3,20 @@ document.addEventListener("DOMContentLoaded", (e) => {
     const theme_toggle = document.querySelector(".dark-mode-toggle");
     const profileIcon = document.querySelector(".link-container-profile-icon");
     const dropdown = document.querySelector(".drop-down-profile");
+    const profileSection = document.querySelector(".profile");
+    const logout = document.querySelector(".LogOut");
+    /* ===============================
+     Logout
+   =============================== */
+    logout.addEventListener("click", (e) => {
+        window.location.href = "/logout";
+    })
     /* ===============================
      PROFILE DROPDOWN
     =============================== */
+    profileSection.addEventListener("click", (e) => {
+        window.location.href = "/profile";
+    })
     if (profileIcon && dropdown) {
         profileIcon.addEventListener("click", (e) => {
             e.stopPropagation();

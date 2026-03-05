@@ -62,7 +62,7 @@ body{
     font-size: 2.5vh;
 }
 .contents{
-    min-height: 100vh;
+    min-height: 60vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -177,7 +177,7 @@ body{
     justify-content: flex-start;
     align-items: flex-start;
     padding:20px;
-    overflow-y:scroll;
+    overflow-y:auto;
     gap:10px;
 }
 .result-tab-question-display{

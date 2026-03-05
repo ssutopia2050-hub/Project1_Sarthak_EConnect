@@ -6,10 +6,37 @@ import Profile from "./models/user_profile.js";
 import session from "express-session";
 import emailjs from "@emailjs/nodejs";
 import { GoogleGenAI } from "@google/genai";
-
+import multer from "multer";
+import path from "path";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 dotenv.config();
 
 const app = express();
+/* =====================================================
+   CLOUDINARY CONFIG
+===================================================== */
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params: async (req, file) => {
+        return {
+            folder: "profile_pictures",
+            public_id: `user_${req.session.userId}`, // 🔥 ONE IMAGE PER USER
+            overwrite: true,                        // 🔥 replaces old automatically
+            allowed_formats: ["jpg", "jpeg", "png", "webp","avif"],
+            transformation: [{ width: 300, height: 300, crop: "fill" }]
+        };
+    }
+});
+
+const upload = multer({ storage });
 
 /* =====================================================
    SESSION (FIXED - NO GLOBAL VARIABLES)
@@ -57,7 +84,7 @@ const ai = new GoogleGenAI({
 /* =====================================================
    SIGNUP
 ===================================================== */
-
+app.get("/", (req, res) => {res.redirect("/signup")})
 app.get("/signup", (req, res) => {
     res.render("signup", { error: null });
 });
@@ -252,16 +279,90 @@ app.post("/signin", async (req, res) => {
 
     res.redirect("/home");
 });
+/* =====================================================
+   PROFILE
+===================================================== */
+app.get("/profile", async (req, res) => {
+    const user = await Profile.findById(req.session.userId).lean();
+    console.log(user);
+    res.render("profile", { user }); // ✅ send as object
 
+})
+app.post("/profile/update", async (req, res) => {
+    if (!req.session.userId) return res.redirect("/signin");
+
+    const { name, role } = req.body;
+
+    await Profile.findByIdAndUpdate(req.session.userId, {
+        name,
+        role
+    });
+
+    res.redirect("/profile");
+});
+app.post("/profile/upload", upload.single("profile_picture"), async (req, res) => {
+    if (!req.session.userId) return res.redirect("/signin");
+
+    if (req.file) {
+        await Profile.findByIdAndUpdate(req.session.userId, {
+            profile_picture: req.file.path
+        });
+    }
+
+    res.redirect("/profile");
+});
 /* =====================================================
    HOME
 ===================================================== */
 
-app.get("/home", (req, res) => {
-    if (!req.session.userId) return res.redirect("/signin");
-    res.render("home");
-});
+app.get("/home", async (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect("/signin");
+    }
 
+    try {
+        const user = await Profile.findById(req.session.userId).lean();
+
+        if (!user) {
+            return res.redirect("/signin");
+        }
+        console.log(user);
+        res.render("home", { user }); // ✅ send as object
+
+    } catch (err) {
+        console.error(err);
+        res.redirect("/signin");
+    }
+});
+app.post("/profile/update-name", async (req, res) => {
+    if (!req.session.userId) return res.status(401).json({ success: false });
+
+    const { name } = req.body;
+
+    await Profile.findByIdAndUpdate(req.session.userId, { name });
+
+    res.json({ success: true });
+});
+app.post("/profile/update-photo", upload.single("profile_picture"), async (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ success: false });
+    }
+
+    try {
+        await Profile.findByIdAndUpdate(req.session.userId, {
+            profile_picture: req.file.path
+        });
+
+        res.json({
+            success: true,
+            imagePath: req.file.path
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
+    }
+});
 /* =====================================================
    SEARCH SYSTEM (UNCHANGED)
 ===================================================== */
@@ -340,7 +441,20 @@ app.post("/process-prompt", (req, res) => {
     const results = search(prompt);
     res.json({ success: true, results });
 });
+/* =====================================================
+   Logout
+===================================================== */
+app.get("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Logout error:", err);
+            return res.redirect("/home");
+        }
 
+        res.clearCookie("connect.sid"); // clears session cookie
+        res.redirect("/signin");
+    });
+});
 /* =====================================================
    AI
 ===================================================== */
@@ -556,7 +670,12 @@ app.get("/solution/:id", async (req, res) => {
     if (!q) return res.status(404).render("404");
     res.render("solution", { question: q });
 });
-
+/* =====================================================
+   Pricing
+===================================================== */
+app.get("/pricing", async (req, res) => {
+    res.render("pricing");
+});
 /* =====================================================
    START
 ===================================================== */
